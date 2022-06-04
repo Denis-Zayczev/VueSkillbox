@@ -18,5 +18,3 @@ export default {
   },
 };
 </script>
-
-<!-- v-for="(product, index) in products" :key="index" -->
