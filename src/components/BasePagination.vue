@@ -2,8 +2,8 @@
   <ul class="catalog__pagination pagination">
     <li class="pagination__item">
       <a class="pagination__link pagination__link--arrow"
-        v-bind:class="{ 'pagination__link--disabled': stopPrevPages() }"
-        @click.prevent="prevPage" aria-label="Предыдущая страница">
+        v-bind:class="{ 'pagination__link--disabled': stopPrevPages }"
+        @click.prevent="paginate(page - 1)" aria-label="Предыдущая страница">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left"></use>
         </svg>
@@ -18,8 +18,8 @@
     </li>
     <li class="pagination__item">
       <a class="pagination__link pagination__link--arrow" href="#"
-        v-bind:class="{ 'pagination__link--disabled': stopNextPages() }"
-        @click.prevent="nextPage" aria-label="Следующая страница">
+        v-bind:class="{ 'pagination__link--disabled': stopNextPages }"
+        @click.prevent="paginate(page + 1)" aria-label="Следующая страница">
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-right"></use>
         </svg>
@@ -39,25 +39,16 @@ export default {
     pages() {
       return Math.ceil(this.count / this.perPage);
     },
-  },
-  methods: {
-    paginate(page) {
-      this.$emit('paginate', page);
-    },
-    nextPage(isActive) {
-      console.log(Math.ceil(this.count / this.perPage));
-      console.log(this.page);
-      console.log(isActive);
-      this.$emit('paginate', this.page + 1);
-    },
-    prevPage() {
-      this.$emit('paginate', this.page - 1);
-    },
     stopPrevPages() {
       return this.page === 1;
     },
     stopNextPages() {
       return this.page >= Math.ceil(this.count / this.perPage);
+    },
+  },
+  methods: {
+    paginate(page) {
+      this.$emit('paginate', page);
     },
   },
 };
