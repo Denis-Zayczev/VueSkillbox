@@ -1,12 +1,13 @@
 /* eslint-disable max-len */
 <template>
-  <component :is="currentPageComponent" :page-params="curentPageParams"  @gotoPage="(pageName, pageParams) => gotoPage(pageName, pageParams)"/>
+  <component :is="currentPageComponent" :page-params="curentPageParams"/>
 </template>
 
 <script>
 import MainPage from './pages/MainPage.vue';
 import ProductPage from './pages/ProductPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
+import eventBus from './eventBus';
 
 const routes = {
   main: 'MainPage',
@@ -28,6 +29,9 @@ export default {
   },
   components: {
     MainPage, ProductPage, NotFoundPage,
+  },
+  created() {
+    eventBus.$on('gotoPage', (pageName, pageParams) => this.gotoPage(pageName, pageParams));
   },
   computed: {
     currentPageComponent() {
