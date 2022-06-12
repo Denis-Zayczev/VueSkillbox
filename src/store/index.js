@@ -13,7 +13,7 @@ export default new Vuex.Store({
   mutations: {
     addProductToCart(state, { productId, amount }) {
       // eslint-disable-next-line no-shadow
-      const item = state.cartProducts.find((item) => item.productId.Id);
+      const item = state.cartProducts.find((item) => item.productId.Id === productId);
 
       if (item) {
         item.amount += amount;
@@ -26,11 +26,14 @@ export default new Vuex.Store({
     },
     updateCartProductAmount(state, { productId, amount }) {
       // eslint-disable-next-line no-shadow
-      const item = state.cartProducts.find((item) => item.productId.Id);
+      const item = state.cartProducts.find((item) => item.productId === productId);
 
       if (item) {
         item.amount = amount;
       }
+    },
+    deletCartProduct(state, productId) {
+      state.cartProducts = state.cartProducts.filter((item) => item.productId !== productId);
     },
   },
   getters: {

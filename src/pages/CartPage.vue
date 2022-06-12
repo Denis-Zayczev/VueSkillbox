@@ -49,8 +49,8 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import numberFormat from '../helpers/numberFormat';
-import CartItem from '../components/CartItem.vue';
+import numberFormat from '@/helpers/numberFormat';
+import CartItem from '@/components/CartItem.vue';
 
 export default {
   filters: {
