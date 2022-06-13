@@ -11,7 +11,8 @@
     </span>
 
     <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар">
+      <productCounter/>
+      <!-- <button type="button" aria-label="Убрать один товар">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus"></use>
         </svg>
@@ -23,7 +24,7 @@
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-plus"></use>
         </svg>
-      </button>
+      </button> -->
     </div>
 
     <b class="product__price">
@@ -41,10 +42,14 @@
 <script>
 import { mapMutations } from 'vuex';
 import numberFormat from '@/helpers/numberFormat';
+import productCounter from '@/components/productCounter.vue';
 
 export default {
   filters: {
     numberFormat,
+  },
+  components: {
+    productCounter,
   },
   props: ['item'],
   computed: {
