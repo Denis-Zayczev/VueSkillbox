@@ -3,12 +3,12 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" :to="{name: 'main'}">
+          <router-link class="breadcrumbs__link" :to="{ name: 'main' }">
             Каталог
           </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" href="#/" :to="{name: 'main'}">
+          <router-link class="breadcrumbs__link" href="#/" :to="{ name: 'main' }">
             {{ category.title }}
           </router-link>
         </li>
@@ -23,8 +23,7 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="product.image"
-            :alt="product.title">
+          <img width="570" height="570" :src="product.image" :alt="product.title">
         </div>
       </div>
 
@@ -42,7 +41,7 @@
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
               <ul class="colors">
-                <li class="colors__item">
+                <!-- <li class="colors__item">
                   <label class="colors__label">
                     <input class="colors__radio sr-only" type="radio" name="color-item" value="blue" checked="">
                     <span class="colors__value" style="background-color: #73B6EA;">
@@ -61,6 +60,13 @@
                     <input class="colors__radio sr-only" type="radio" name="color-item" value="gray">
                     <span class="colors__value" style="background-color: #939393;">
                     </span></label>
+                </li> -->
+                <li class="colors__item" v-for="(product, index) in product.colors" :key="index">
+                  <label class="colors__label">
+                    <input class="colors__radio sr-only" type="radio" :value="product" v-model="color"/>
+                    <span class="colors__value" :style="{ 'background-color': product }">
+                    </span>
+                  </label>
                 </li>
               </ul>
             </fieldset>
@@ -112,7 +118,7 @@
                   </svg>
                 </button>
               </div> -->
-                <productCounter/>
+              <productCounter />
               <button class="button button--primery" type="submit">
                 В корзину
               </button>
@@ -196,6 +202,7 @@ export default {
   data() {
     return {
       productAmount: 1,
+      color: products,
     };
   },
   filters: {
