@@ -63,7 +63,7 @@
                 </li> -->
                 <li class="colors__item" v-for="(product, index) in product.colors" :key="index">
                   <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" :value="product" v-model="color"/>
+                    <input class="colors__radio sr-only" type="radio" :value="product" v-model="color" />
                     <span class="colors__value" :style="{ 'background-color': product }">
                     </span>
                   </label>
@@ -118,7 +118,7 @@
                   </svg>
                 </button>
               </div> -->
-              <productCounter />
+              <productCounter :product-amount="productAmount" @update-count="productAmount = $event" />
               <button class="button button--primery" type="submit">
                 В корзину
               </button>
