@@ -18,7 +18,7 @@
       <li class="colors__item" v-for="(_color, index) in product.colors" :key="index">
         <label class="colors__label">
           <input class="colors__radio sr-only" type="radio" :value="_color" v-model="color" />
-          <span class="colors__value" :style="{ 'background-color': _color }">
+          <span class="colors__value" :style="{ 'background-color': _color.code }">
           </span>
         </label>
       </li>
