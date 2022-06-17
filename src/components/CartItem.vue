@@ -11,7 +11,7 @@
     </span>
 
     <div class="product__counter form__counter">
-      <productCounter :product-amount="amount" @update-count="amount = $event"/>
+      <productCounter :product-amount="amount" @update-count="amount = $event" />
       <!-- <button type="button" aria-label="Убрать один товар">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus"></use>
@@ -31,7 +31,8 @@
       {{ item.amount * item.product.price | numberFormat }} ₽
     </b>
 
-    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deletProduct(item.productId)">
+    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины"
+      @click.prevent="deleteFromBasket(item.productId)">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
       </svg>
@@ -58,12 +59,15 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        this.$store.commit('updateCartProductAmount', { productId: this.item.productId, amount: value });
+        this.$store.dispatch('updateCartProductAmount', { productId: this.item.productId, amount: value });
       },
     },
   },
   methods: {
-    ...mapMutations({ deletProduct: 'deletCartProduct' }),
+    ...mapMutations({ deleteProduct: 'deleteCartProducts' }),
+    deleteFromBasket(productId) {
+      this.$store.dispatch('deleteCartProducts', { productId });
+    },
   },
 };
 </script>
