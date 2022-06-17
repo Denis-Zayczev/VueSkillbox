@@ -1,5 +1,7 @@
 <template>
-  <main class="content container">
+  <main class="content container" v-if="productLoading">Загрузка товара...</main>
+  <main class="content container" v-else-if="!productData">Ну удолось загрузить товар</main>
+  <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
@@ -23,7 +25,7 @@
     <section class="item">
       <div class="item__pics pics">
         <div class="pics__wrapper">
-          <img width="570" height="570" :src="product.image" :alt="product.title">
+          <img width="570" height="570" :src="product.image.file.url" :alt="product.title">
         </div>
       </div>
 
@@ -63,8 +65,8 @@
                 </li> -->
                 <li class="colors__item" v-for="(product, index) in product.colors" :key="index">
                   <label class="colors__label">
-                    <input class="colors__radio sr-only" type="radio" :value="product" v-model="color" />
-                    <span class="colors__value" :style="{ 'background-color': product }">
+                    <input class="colors__radio sr-only" type="radio" :value="product" />
+                    <span class="colors__value" :style="{ 'background-color': product.code }">
                     </span>
                   </label>
                 </li>
@@ -191,18 +193,21 @@
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
+import axios from 'axios';
 import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
 import productCounter from '@/components/productCounter.vue';
+import { API_BASE_URL } from '../config';
 
 export default {
   components: { productCounter },
   data() {
     return {
       productAmount: 1,
-      color: products,
+      // color: products,
+      productData: null,
+      productLoading: false,
+      productLoadingFailed: false,
     };
   },
   filters: {
@@ -210,16 +215,42 @@ export default {
   },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryId);
+      return this.productData.category;
+    },
+    products() {
+      return this.productsData ? this.productsData.items.map((product) => ({
+        ...product,
+        image: product.image.file.url,
+      }))
+        : [];
     },
   },
   methods: {
     gotoPage,
     addToCart() {
       this.$store.commit('addProductToCart', { productId: this.product.id, amount: this.productAmount });
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFailed = false;
+      axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
+        .then((response) => { this.productData = response.data; })
+        .catch(() => { this.productLoadingFailed = true; })
+        .then(() => { this.productLoading = false; });
+    },
+  },
+  created() {
+    this.loadProduct();
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
     },
   },
 };
