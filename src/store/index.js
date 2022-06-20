@@ -93,24 +93,24 @@ export default new Vuex.Store({
         return;
       }
       // eslint-disable-next-line consistent-return
-      return (new Promise((resolve) => setTimeout(resolve, 1500)))
-        .then(() => axios
-          .put(`${API_BASE_URL}/api/baskets/products`, {
-            productId,
-            quantity: amount,
-          }, {
-            params: {
-              userAccessKey: context.state.userAccessKey,
-            },
-          })
-          .then((response) => {
-            context.commit('updateCartProductData', response.data.items);
-          })
-          .catch(() => {
-            context.commit('syncCartProducts');
-          }));
+      return axios
+        .put(`${API_BASE_URL}/api/baskets/products`, {
+          productId,
+          quantity: amount,
+        }, {
+          params: {
+            userAccessKey: context.state.userAccessKey,
+          },
+        })
+        .then((response) => {
+          context.commit('updateCartProductData', response.data.items);
+        })
+        .catch(() => {
+          context.commit('syncCartProducts');
+        });
     },
     deleteCartProducts(context, { productId }) {
+      context.commit('deletCartProduct', { productId });
       axios
         .delete(`${API_BASE_URL}/api/baskets/products`, {
           data: {

@@ -1,6 +1,6 @@
 <template>
   <main class="content container" v-if="productLoading">Загрузка товара...</main>
-  <main class="content container" v-else-if="!productData">Ну удолось загрузить товар</main>
+  <main class="content container content__error" v-else-if="!productData"><h1>Ошибка 404</h1><h2>Не удолось загрузить товар</h2></main>
   <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
