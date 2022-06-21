@@ -1,6 +1,9 @@
 <template>
   <main class="content container" v-if="productLoading">Загрузка товара...</main>
-  <main class="content container content__error" v-else-if="!productData"><h1>Ошибка 404</h1><h2>Не удолось загрузить товар</h2></main>
+  <main class="content container content__error" v-else-if="!productData">
+    <h1>Ошибка 404</h1>
+    <h2>Не удолось загрузить товар</h2>
+  </main>
   <main class="content container" v-else>
     <div class="content__top">
       <ul class="breadcrumbs">
@@ -85,7 +88,7 @@
             </fieldset>
 
             <div class="item__row">
-              <productCounter :product-amount="productAmount" @update-count="productAmount = $event" />
+              <productCounter :counter.sync="productAmount" @update-count="productAmount = $event" />
               <button class="button button--primery" type="submit" :disabled="productAddSending">
                 В корзину
               </button>
@@ -215,7 +218,7 @@ export default {
       this.productLoadingFailed = false;
       axios.get(`${API_BASE_URL}/api/products/${this.$route.params.id}`)
         .then((response) => { this.productData = response.data; })
-        .catch(() => { this.productLoadingFailed = true; })
+        .catch(() => { this.$router.push({ name: 'notFound' }); })
         .then(() => { this.productLoading = false; });
     },
   },
@@ -227,8 +230,8 @@ export default {
       handler() {
         this.loadProduct();
       },
-      immediate: true,
     },
+    immediate: true,
   },
 };
 </script>

@@ -33,7 +33,7 @@
             Наши менеджеры свяжутся с&nbsp;Вами в&nbsp;течение часа для уточнения деталей доставки.
           </p>
 
-          <ul class="dictionary">
+          <ul class="dictionary" v-if="orderInfo">
             <li class="dictionary__item">
               <span class="dictionary__key">
                 Получатель
@@ -86,7 +86,7 @@
             </li>
           </ul>
 
-          <div class="cart__total">
+          <div class="cart__total" v-if="orderInfo">
             <p>Доставка: <b>500 ₽</b></p>
             <p>Итого: <b>{{ totalPriceWithDelivery | numberFormat }} ₽</b></p>
           </div>
@@ -116,6 +116,17 @@ export default {
       return;
     }
     this.$store.dispatch('loadOrderInfo', this.$route.params.id);
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.$store.dispatch('loadOrderInfo', this.$route.params.id)
+          .catch(
+            () => this.$router.push({ name: 'notFound' }),
+          );
+      },
+    },
+    immediate: true,
   },
 };
 </script>

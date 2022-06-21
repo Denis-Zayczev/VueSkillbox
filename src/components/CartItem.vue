@@ -11,20 +11,7 @@
     </span>
 
     <div class="product__counter form__counter">
-      <productCounter :product-amount="amount" @update-count="amount = $event" />
-      <!-- <button type="button" aria-label="Убрать один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-minus"></use>
-        </svg>
-      </button>
-
-      <input type="text" v-model.number="amount" name="count">
-
-      <button type="button" aria-label="Добавить один товар">
-        <svg width="10" height="10" fill="currentColor">
-          <use xlink:href="#icon-plus"></use>
-        </svg>
-      </button> -->
+      <productCounter :counter.sync="amount" @update-count="amount = $event" />
     </div>
 
     <b class="product__price">
